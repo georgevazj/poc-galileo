@@ -1,0 +1,132 @@
+---
+apiVersion: app.terraform.io/v1alpha1
+kind: Workspace
+metadata:
+  workspace: terraform-operator
+  name: galileo-production
+spec:
+  # Optional field for SSH Key ID. To get the id you need to list the keys using the API: https://www.terraform.io/docs/cloud/api/ssh-keys.html#list-ssh-keys.
+  # sshKeyID: sshkey-D4fmNfDCWAoBJopq
+  organization: georgevazj-lab
+  secretsMountPath: "/tmp/secrets"
+  module:
+    source: "github.com/georgevazj/terraform-azure-workload.git"
+  vcs:
+    token_id: "ot-BNLSoG8o1bAkzwMc"
+    repo_identifier: "georgevazj/terraform-azure-workload"
+    ingress_submodules: false
+  variables:
+    - key: ARM_CLIENT_ID
+      sensitive: true
+      environmentVariable: true
+    - key: ARM_CLIENT_SECRET
+      sensitive: true
+      environmentVariable: true
+    - key: ARM_SUBSCRIPTION_ID
+      sensitive: true
+      environmentVariable: true
+    - key: ARM_TENANT_ID
+      sensitive: true
+      environmentVariable: true
+    - key: location
+      valueFrom:
+        configMapKeyRef:
+          name: galileo-production
+          key: location
+      sensitive: false
+      environmentVariable: false
+    - key: description
+      valueFrom:
+        configMapKeyRef:
+          name: galileo-production
+          key: description
+      sensitive: false
+      environmentVariable: false
+    - key: enabled_disk_encryption
+      valueFrom:
+        configMapKeyRef:
+          name: galileo-production
+          key: enabled_disk_encryption
+      sensitive: false
+      environmentVariable: false
+    - key: soft_delete_retention_days
+      valueFrom:
+        configMapKeyRef:
+          name: galileo-production
+          key: soft_delete_retention_days
+      sensitive: false
+      environmentVariable: false
+    - key: purge_protection_enabled
+      valueFrom:
+        configMapKeyRef:
+          name: galileo-production
+          key: purge_protection_enabled
+      sensitive: false
+      environmentVariable: false
+    - key: sku_name
+      valueFrom:
+        configMapKeyRef:
+          name: galileo-production
+          key: sku_name
+      sensitive: false
+      environmentVariable: false
+    - key: account_tier
+      valueFrom:
+        configMapKeyRef:
+          name: galileo-production
+          key: account_tier
+      sensitive: false
+      environmentVariable: false
+    - key: account_replication_type
+      valueFrom:
+        configMapKeyRef:
+          name: galileo-production
+          key: account_replication_type
+      sensitive: false
+      environmentVariable: false
+    - key: environment_tag
+      valueFrom:
+        configMapKeyRef:
+          name: galileo-production
+          key: environment_tag
+      sensitive: false
+      environmentVariable: false
+    - key: sequence_number
+      valueFrom:
+        configMapKeyRef:
+          name: galileo-production
+          key: sequence_number
+      sensitive: false
+      environmentVariable: false
+    - key: workload_acronym
+      valueFrom:
+        configMapKeyRef:
+          name: galileo-production
+          key: workload_acronym
+      sensitive: false
+      environmentVariable: false
+    - key: env_acronym
+      valueFrom:
+        configMapKeyRef:
+          name: galileo-production
+          key: env_acronym
+      sensitive: false
+      environmentVariable: false
+    - key: entity
+      valueFrom:
+        configMapKeyRef:
+          name: galileo-production
+          key: entity
+      sensitive: false
+      environmentVariable: false
+  outputs:
+    - key: resource_group_location
+      moduleOutputName: resource_group_location
+    - key: resource_group_name
+      moduleOutputName: resource_group_name
+    - key: resource_group_id
+      moduleOutputName: resource_group_id
+    - key: akv_name
+      moduleOutputName: akv_name
+    - key: akv_id
+      moduleOutputName: akv_id
